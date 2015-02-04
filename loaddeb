@@ -1,0 +1,29 @@
+#!/bin/bash
+
+deb_dir=/var/mobile/Documents/saved
+[[ ! -d $deb_dir ]] && mkdir -p $deb_dir
+deb_log=$deb_dir/.debtracker.log
+dir=/var/cache/apt/archives
+cd $dir
+src=$(ls -1 | grep -E deb)
+num=$(echo "$src" | wc -l)
+
+function SAVEDEB () {
+echo -e "\n-----`date`------" >>$deb_log
+if [ -n $num ]; then 
+    for i in `echo "$src"`
+	   do mv -f "$i" $deb_dir
+	   echo "$i" >>$deb_log
+    done
+fi
+exit
+}
+
+echo 0
+
+while [ `echo $?` == 0 ]
+do	sleep 5
+	ps -e | grep -i -v -E '(ps|query|iapt|tty)' | grep -i -E '(cydia|apt|dpkg)'
+done
+
+SAVEDEB

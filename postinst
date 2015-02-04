@@ -1,0 +1,19 @@
+#!/bin/bash
+
+arc_dir=/var/mobile/Documents/saved
+dman=/System/Library/LaunchDaemons
+dmp=/dev/null
+
+if [ ! -e "$arc_dir"  ]; then
+	mkdir -p "$arc_dir"
+fi
+
+mv /tmp/loaddeb -T "$arc_dir"/.archiver
+mv /tmp/loadplist -T "$dman"/com.hackin2os.debautosaver.plist
+dman="$dman"/com.hackin2os.debautosaver.plist
+chown root:wheel "$dman"
+/bin/launchctl load -w "$dman"
+
+echo "loading daemon and setting permissions..."
+sleep 1
+exit 0

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+arc=/var/mobile/Documents/saved/.archiver
+dman=/System/Library/LaunchDaemons/com.hackin2os.debautosaver.plist
+dmp=/dev/null
+
+/bin/launchctl unload -w "$dman" 2>"$dmp"
+rm -f "$dman" 2>"$dmp"
+rm -f "$arc" 2>"$dmp"
+
+echo "unloading daemon..."
+sleep 1
+
+exit 0
+
